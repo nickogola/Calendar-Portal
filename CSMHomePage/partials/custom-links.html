@@ -1,0 +1,18 @@
+﻿<div class="box-header with-border bg-green">
+    <h4 class="box-title"><b>{{user.UserRole}} Links</b></h4>
+</div>
+<style>
+    .csm-links {
+        font-size: 13px;
+        line-height: 1.2;
+        color: #0f543e;
+    }
+    </style>
+<div class="box-body">
+ 
+    <div id="external-events" ng-repeat="link in UserLinks | filter:{LinkType: user.UserRole} : true">
+
+        <div class="csm-links"><i class="fa fa-tags" aria-hidden="true"></i> <a href="{{link.LinkURL}}" target="_blank"> {{link.LinkDescription}}</a></div>
+
+    </div>
+</div>

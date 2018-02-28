@@ -1,0 +1,526 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Internal Portal</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.6 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- fullCalendar 2.2.5-->
+    <link rel="stylesheet" href="plugins/fullcalendar/fullcalendar.min.css">
+    <link rel="stylesheet" href="plugins/fullcalendar/fullcalendar.print.css" media="print">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.min.css" />
+   <!-- <link rel="shortcut icon" href="http://clermont.wrberkley.com/pub/design/favicon.ico" />-->
+    <link href="css/mycalendar.css" rel="stylesheet" />
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+
+    <![endif]-->
+
+    <script>
+          function documentsClicked(e) {
+              if (navigator.userAgent.search("Chrome") >= 0) {
+                  $("#modalIECheck").modal({ backdrop: "static" });   //  alert('Sorry the shared folders cannot be opened using Chrome, Firefox or Safari. Please use Internet Explorer to open the shared folders');
+                  $('.hrdocs').hide();
+              }
+              else if (navigator.userAgent.search("Firefox") >= 0) {
+                  $("#modalIECheck").modal({ backdrop: "static" });
+                  //  alert('Sorry the shared folders cannot be opened using Chrome, Firefox or Safari. Please use Internet Explorer to open the shared folders');
+                  $('.hrdocs').hide();
+              }
+              // e.preventDefault();
+          }
+    </script>
+    
+    
+</head>
+<body class="hold-transition skin-blue sidebar-mini" ng-app="app">
+    <input type="hidden" id="userCalendarId" />
+    <input type="hidden" id="currentMonth" />
+    <div id="loading">
+        <div id="loader"></div>
+
+    </div>
+<div class="container" ng-controller="csmController">
+    <div class="ribbon" id="siteversion"><span>Test</span></div> 
+<div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="calendarModalLabel" style="font-weight: bold;">Add Event</h4>
+                <label id="lbFormError" style="padding-right: 2em; font-weight: bold;"/>
+            </div>
+            <div class="modal-body">
+                <table class="forms">
+                    <tr>
+                        <td>
+                            <span>
+                                        <b>Event: </b>
+                                    </span>
+                        </td>
+                        <td class="form-group">
+                            <input type="text" class="form-control" placeholder="Event Title" id="txtEventTitle">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span><b>Start Date: </b></span></td>
+                        <td><input type="text" class="form-control input-xlarge datepicker sp-entry" id="startDate" placeholder="Start Date"></td>
+                        <td>
+                            <!-- <input type="checkbox" id="chkAllDay" ng-model="check" ng-change="chkAllDay(check)" ng-true-value="true" ng-false-value="false"//><span><b> All Day </b></span>--></td>
+                    </tr>
+                    <tr>
+                        <td><span><b>End Date: </b></span></td>
+                        <td><input type="text" class="form-control input-xlarge datepicker sp-entry" id="endDate" placeholder="End Date"></td>
+                    </tr>
+                    <!--<tr>
+                        <td><span><b>All Day: </b></span></td>
+                        <td><input type="checkbox" id="chkAllDay"/></td>
+                    </tr>-->
+                </table>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="btnConfirm" ng-click="saveEvent()">Save</button>
+                <button type="button" class="btn btn-error" id="btnDelete" ng-click="deleteEvent()">Delete</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="btnCloseModal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalIECheck" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="calendarModalLabel" style="font-weight: bold;"> Alert</h4>
+                <label id="lbFormError" style="padding-right: 2em; font-weight: bold;"/>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-warning">
+                    <strong><i class="fa fa-warning" aria-hidden="true"></i> Oh Oh!</strong> Sorry the shared folders cannot be opened using Chrome, Firefox or Safari. Please use Internet Explorer to open the shared folders.
+                </div>
+
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="btnCloseModal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- <span style="float: right;font-weight: bold;">WRBTS\{{user.UserID}}</span>-->
+    <div style="position: relative;">
+        <div style="float: left; padding: 0 0 0 2%;">
+            <h4 class="header">
+                <a href="/" style="padding-right: 2em;">
+                    <img src="/images/INSLogo.png" class="img" style="cursor: pointer;" alt="CSM Logo">
+                </a>
+
+                <!-- <b>Announcements: </b>{{announcements[0].AnnouncementText}}-->
+            </h4>
+
+        </div>
+        <div style="padding-left: 3em; text-align: right; color: #00573d;">
+            <!--<span style="float: right; margin-top: 1%;">
+                        <img src="images/WRB50.jpg" />
+                    </span>-->
+        </div>
+    </div>
+
+</div>
+<div class="row">
+    <hr/>
+    <nav class="navbar navbar-default" role="navigation">
+        <ul class="nav navbar-nav">
+            <li style="width: 8em;"><a href="/" ng-click="ReturnHome()"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
+            <li  class="active" style="width: 9em;"><a href="myCalendar.html"> <i class="fa fa-calendar" aria-hidden="true"></i> My Calendar</a></li>
+            <!--<li class="dropdown" style="width: 12em;">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="fa fa-calendar" aria-hidden="true"></i> Team Calendars
+                    <b class="caret"></b>
+                </a>
+
+                <ul class="dropdown-menu">
+                    <li ng-repeat="link in Alllinks | filter:{LinkType: 'Calendars'}"><a style="cursor: pointer;" ng-click="GetTeamCalendar(link.LinkDescription)">{{link.LinkDescription}}</a></li>
+                </ul>
+
+            </li>-->
+            <li class="dropdown" style="width: 9em;">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="fa fa-link" aria-hidden="true"></i> CSM Links
+                    <b class="caret"></b>
+                </a>
+
+                <ul class="dropdown-menu">
+                    <li ng-repeat="link in Alllinks | filter:{LinkType: 'CSM Links'}"><a href="{{link.LinkURL}}" target="{{link.Target}}">{{link.LinkDescription}}</a></li>
+                </ul>
+
+            </li>
+            <li class="menu-item dropdown" style="width: 10em;">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="fa fa-link" aria-hidden="true"></i> Team Links <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu multi-level">
+                    <li class="menu-item dropdown dropdown-submenu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-calculator" aria-hidden="true"></i>Accounting</a>
+                        <ul class="dropdown-menu">
+
+                            <li class="menu-item" ng-repeat="link in Alllinks | filter:{LinkType: 'Accounting'}">
+                                <a href="{{link.LinkURL}}" target="{{link.Target}}">{{link.LinkDescription}}</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item dropdown dropdown-submenu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-line-chart" aria-hidden="true"></i>Actuary</a>
+                        <ul class="dropdown-menu">
+
+                            <li class="menu-item" ng-repeat="link in Alllinks | filter:{LinkType: 'Actuary'}">
+                                <a href="{{link.LinkURL}}" target="{{link.Target}}">{{link.LinkDescription}}</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item dropdown dropdown-submenu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-desktop" aria-hidden="true"></i>IT</a>
+                        <ul class="dropdown-menu">
+
+                            <li class="menu-item" ng-repeat="link in Alllinks | filter:{LinkType: 'IT'}">
+                                <a href="{{link.LinkURL}}" target="{{link.Target}}">{{link.LinkDescription}}</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item dropdown dropdown-submenu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-money" aria-hidden="true"></i>Claims</a>
+                        <ul class="dropdown-menu">
+
+                            <li class="menu-item" ng-repeat="link in Alllinks | filter:{LinkType: 'Claims'}">
+                                <a href="{{link.LinkURL}}" target="{{link.Target}}">{{link.LinkDescription}}</a>
+                            </li>
+
+                            <!--<li class="menu-item dropdown dropdown-submenu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Level 2</a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="#">Link 3</a>
+                                    </li>
+                                </ul>
+                            </li>-->
+                        </ul>
+                    </li>
+                    <li class="menu-item dropdown dropdown-submenu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-check-square-o" aria-hidden="true"></i>Compliance</a>
+                        <ul class="dropdown-menu">
+
+                            <li class="menu-item" ng-repeat="link in Alllinks | filter:{LinkType: 'Compliance'}">
+                                <a href="{{link.LinkURL}}" target="{{link.Target}}">{{link.LinkDescription}}</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item dropdown dropdown-submenu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-gavel" aria-hidden="true"></i>Legal</a>
+                        <ul class="dropdown-menu">
+
+                            <li class="menu-item" ng-repeat="link in Alllinks | filter:{LinkType: 'Legal'}">
+                                <a href="{{link.LinkURL}}" target="{{link.Target}}">{{link.LinkDescription}}</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item dropdown dropdown-submenu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-pencil" aria-hidden="true"></i>Underwriting</a>
+                        <ul class="dropdown-menu">
+
+                            <li class="menu-item" ng-repeat="link in Alllinks | filter:{LinkType: 'UW'}  : true">
+                                <a href="{{link.LinkURL}}" target="{{link.Target}}">{{link.LinkDescription}}</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-item dropdown dropdown-submenu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs" aria-hidden="true"></i>Underwriting Operations</a>
+                        <ul class="dropdown-menu">
+
+                            <li class="menu-item" ng-repeat="link in Alllinks | filter:{LinkType: 'UWOps'}">
+                                <a href="{{link.LinkURL}}" target="{{link.Target}}">{{link.LinkDescription}}</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li class="dropdown" style="width: 10em;">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="fa fa-user" aria-hidden="true"></i> HR Links
+                    <b class="caret"></b>
+                </a>
+
+                <ul class="dropdown-menu">
+                    <li ng-repeat="link in Alllinks | filter:{LinkType: 'HR Links'}"><a href="{{link.LinkURL}}" target="{{link.Target}}">{{link.LinkDescription}}</a></li>
+                </ul>
+
+            </li>
+            <li class="dropdown" style="width: 9em;">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" onclick="documentsClicked(event)">
+                    <i class="fa fa-folder-o" aria-hidden="true"></i> HR Docs
+                    <b class="caret"></b>
+                </a>
+
+                <ul class="dropdown-menu hrdocs" style="width: 10em;">
+                    <li ng-repeat="link in Alllinks | filter:{LinkType: 'HR Documents'}"><a href="{{link.LinkURL}}">{{link.LinkDescription}}</a></li>
+                </ul>
+
+            </li>
+            <li class="dropdown" style="width: 11em;">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" onclick="documentsClicked(event)">
+                    <i class="fa fa-desktop" aria-hidden="true"></i> IT Policies
+                    <b class="caret"></b>
+                </a>
+
+                <ul class="dropdown-menu hrdocs" style="width: 8em;">
+                    <li ng-repeat="link in Alllinks | filter:{LinkType: 'IT Policies'}"><a href="{{link.LinkURL}}" target="_blank">{{link.LinkDescription}}</a></li>
+                </ul>
+
+            </li>
+            <li class="dropdown" style="width: 12em;">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="fa fa-line-chart" aria-hidden="true"></i> Financial Results
+                    <b class="caret"></b>
+                </a>
+
+                <ul class="dropdown-menu">
+                    <li ng-repeat="link in Alllinks | filter:{LinkType: 'Financial'}"><a href="{{link.LinkURL}}" target="_blank">{{link.LinkDescription}}</a></li>
+                </ul>
+
+            </li>
+            <li class="dropdown" style="width: 8em;">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="fa fa-cutlery" aria-hidden="true"></i> Lunch
+                    <b class="caret"></b>
+                </a>
+
+                <ul class="dropdown-menu">
+                    <li ng-repeat="link in Alllinks | filter:{LinkType: 'Lunch'}"><a href="{{link.LinkURL}}" target="{{link.Target}}">{{link.LinkDescription}}</a></li>
+                </ul>
+
+            </li>
+
+        </ul>
+        <!--</div>-->
+
+    </nav>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-md-2" style="margin-top: 5px;">
+                <div class="box box-solid qk-events">
+                    <!--<div class="box-header with-border">
+                        <h4 class="box-title"><b>Team Members</b></h4>
+                    </div>-->
+
+                    <div class="box-header with-border">
+                        <h4 class="box-title"><b>Quick Events</b></h4>
+                    </div>
+                    <div class="box-body">
+                        <!-- the events -->
+                        <div id="external-events">
+                            <div class="external-event bg-aqua"><i class="fa fa-clock-o" aria-hidden="true"></i>Time Off</div>
+                            <div class="external-event bg-purple"><i class="fa fa-clock-o" aria-hidden="true"></i> 1/2 PTO</div>
+                            <div class="external-event bg-red"><i class="fa fa-ambulance" aria-hidden="true"></i> Sick</div>
+                            <div class="external-event bg-fuchsia"><i class="fa fa-ambulance" aria-hidden="true"></i> 1/2 Sick</div>
+                            <div class="external-event bg-green"><i class="fa fa-home" aria-hidden="true"></i> Remote</div>
+                       
+
+                        </div>
+                    </div>
+
+                    <!-- /.box-body -->
+                </div>
+                <div style="padding-left: 1em; padding-bottom: 1em;">
+                    <button type="button" style="margin-bottom: 5px; background-color: #A1915F; border-color: #A1915F;" ng-click="AddEvent()" class="btn btn-success"> <i class="fa fa-plus" aria-hidden="true"></i> Add Event</button>
+
+                </div>
+           
+
+            </div>
+            <!-- /.col -->
+            <div class="col-md-10">
+                <div class="box box-primary">
+                    <div class="box-body no-padding" style="position: relative;">
+                        <div style="position: absolute; top: 0; left: 5px;" class="cal-header">
+                            <h3 class="box-title" style="font-family: 'Source Sans Pro', sans-serif; font-size: 18px; color: #fff;">
+                                <b>My Calendar</b>
+                            </h3>
+                        </div>
+                        <!-- THE CALENDAR -->
+                        <div id="mycalendar"></div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /. box -->
+            </div>
+            <!-- /.col -->
+         
+        </div>
+        <!-- /.row -->
+   
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+<!-- Control Sidebar -->
+</div>
+    <footer>
+        <p style="padding-top: 1%">
+        </p><center>© 2017 Clermont Specialty Managers</center>
+        <p></p>
+    </footer>
+    <!-- ./wrapper -->
+    <!-- jQuery 2.2.3 -->
+    <script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <!-- Bootstrap 3.3.6 -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+
+    <script src="Scripts/angular.js"></script>
+    <script src="Scripts/angular-animate.js"></script>
+    <script src="Scripts/angular-route.js"></script>
+    <script src="Scripts/angular.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.8/angular-ui-router.min.js"></script>
+    <script>
+       $(function () {
+           if (navigator.userAgent.search("MSIE") >= 0) {
+               console.log("explorer");
+           }
+           else if (navigator.userAgent.search("Chrome") >= 0) {
+               console.log("chrome");
+           }
+           else if (navigator.userAgent.search("Firefox") >= 0) {
+               console.log("firefox");
+           }
+
+           $("#startDate").datepicker({
+               defaultDate: null,
+               autoUpdateInput: false,
+           }).on('changeDate', function (ev) {
+               $('.datepicker-dropdown').hide();
+           });
+           $("#endDate").datepicker({
+                defaultDate: null,
+                autoUpdateInput: false,
+           }).on('changeDate', function (ev) {
+               $('.datepicker-dropdown').hide();
+           });
+           /* initialize the external events
+            -----------------------------------------------------------------*/
+           function ini_events(ele) {
+               ele.each(function () {
+
+                   // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
+                   // it doesn't need to have a start or end
+                   var eventObject = {
+                       title: $.trim($(this).text()) // use the element's text as the event title
+                   };
+
+                   // store the Event Object in the DOM element so we can get to it later
+                   $(this).data('eventObject', eventObject);
+
+                   // make the event draggable using jQuery UI
+                   $(this).draggable({
+                       zIndex: 1070,
+                       revert: true, // will cause the event to go back to its
+                       revertDuration: 0  //  original position after the drag
+                   });
+
+               });
+           }
+
+           ini_events($('#external-events div.external-event'));
+
+           /* initialize the calendar
+            -----------------------------------------------------------------*/
+
+
+
+           /* ADDING EVENTS */
+           var currColor = "#3c8dbc"; //Red by default
+           //Color chooser button
+           var colorChooser = $("#color-chooser-btn");
+           $("#color-chooser > li > a").click(function (e) {
+               e.preventDefault();
+               //Save color
+               currColor = $(this).css("color");
+               //Add color effect to button
+               $('#add-new-event').css({ "background-color": currColor, "border-color": currColor });
+           });
+           $("#add-new-event").click(function (e) {
+               e.preventDefault();
+               //Get value and make sure it is not null
+               var val = $("#new-event").val();
+               if (val.length == 0) {
+                   return;
+               }
+
+               //Create events
+               var event = $("<div />");
+               event.css({ "background-color": currColor, "border-color": currColor, "color": "#fff" }).addClass("external-event");
+               event.html(val);
+               $('#external-events').prepend(event);
+
+               //Add draggable funtionality
+               ini_events(event);
+
+               //Remove event from text input
+               $("#new-event").val("");
+           });
+       });
+    </script>
+
+
+
+    <!-- jQuery UI 1.11.4 -->
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <!-- Slimscroll -->
+    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="plugins/fastclick/fastclick.js"></script>
+    <!-- AdminLTE App -->
+    <script src="dist/js/app.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="dist/js/demo.js"></script>
+    <!-- fullCalendar 2.2.5 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+    <script src="plugins/fullcalendar/fullcalendar.js"></script>
+    <!--<script src="plugins/fullcalendar/fullcalendar.min.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
+    <script src="http://momentjs.com/downloads/moment.js"></script>
+    <link href="http://fonts.googleapis.com/css?family=Raleway:400,300,700" rel="stylesheet" type="text/css">
+    
+   
+    <!-- Page specific script -->
+    
+    <script src="App/mycalendar.js"></script>
+    <style>
+         /*.container {
+            width: 1270px;
+        }*/
+         .nav > li > a {
+             padding: 10px 8px;
+             font-size: 14px;
+             line-height: 29px;
+         }
+    </style>
+</body>
+</html>

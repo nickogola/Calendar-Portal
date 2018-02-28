@@ -1,0 +1,338 @@
+﻿body {
+    background-color: #eee;
+}
+
+.container {
+    position: relative;
+    /*min-width: 1070px;*/
+    width: 1270px !important;
+    /*max-width: 3500px;*/
+    margin: 5px auto;
+    padding: 1em 2em;
+    border: 1px solid #e6e3e3;
+    border-radius: 5px;
+    background-color: #fff;
+    position: relative;
+}
+
+csm-links a, a.hover {
+    color: #000000;
+}
+
+csm-apps a, a.hover {
+    color: #ffffff;
+}
+
+h1 {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+.uw-links a, a.hover {
+    color: #ffffff;
+    text-shadow: none;
+}
+
+.content {
+    min-height: 250px;
+    padding: 0;
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.header {
+    font-size: 1.25em;
+    padding: 0 20px 0 0;
+    text-align: center;
+    /* font-weight: 600; */
+    color: #00573d;
+}
+
+.intro-box {
+    position: relative;
+    border-radius: 3px;
+    background: #ffffff;
+    border-top: 0;
+    margin-bottom: 20px;
+    width: 100%;
+    box-shadow: none;
+}
+
+.uw-links {
+    padding: 5px 10px;
+    font-weight: bold;
+    margin-bottom: 4px;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+    text-shadow: 0 1px 1px rgba(0,0,0,0.1);
+    border-radius: 3px;
+}
+
+.csm-links {
+    /* padding: 5px 10px; */
+    font-family: "Source Sans Pro", sans-serif;
+    /*font-weight: bold;*/
+    margin-bottom: 4px;
+    border-radius: 3px;
+    cursor: move;
+    line-height: 15px;
+}
+
+.box-solid {
+    border: 1px solid #eee;
+}
+
+    .box-solid a {
+        color: #585858;
+        text-decoration: none;
+    }
+
+.box.box-solid {
+    border-top: 1px solid #eee !important;
+}
+
+.box-header {
+    background-color: #fff;
+    font-family: 'Source Sans Pro',sans-serif;
+    font-variant: small-caps;
+    color: #0f543e !important;
+    background-color: #fff !important;
+}
+
+.fc-time {
+    display: none;
+}
+
+.navbar-nav > li > a {
+    text-transform: uppercase;
+    /*font-size: 12px;*/
+    font-family: "Source Sans Pro", sans-serif;
+}
+
+.navbar-nav > li {
+    border-left: 1px solid #eee;
+    /*width: 10em;*/
+    text-align: center;
+}
+
+#loading {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    z-index: 1000;
+}
+
+#loadingcontent {
+    display: table;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#loadingspinner {
+    display: table-cell;
+    vertical-align: middle;
+    width: 100%;
+    text-align: center;
+    font-size: larger;
+    padding-top: 80px;
+}
+
+#loader {
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    z-index: 1;
+    margin: -75px 0 0 -75px;
+    border: 5px solid #a39463;
+    border-radius: 50%;
+    border-top: 5px solid #00543e;
+    width: 55px;
+    height: 55px;
+    -webkit-animation: spin 1s linear infinite;
+    animation: spin 0.6s linear infinite;
+}
+
+#loader {
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    z-index: 1;
+    margin: -75px 0 0 -75px;
+    border: 5px solid #a39463;
+    border-radius: 50%;
+    border-top: 5px solid #00543e;
+    width: 55px;
+    height: 55px;
+    -webkit-animation: spin 1s linear infinite;
+    animation: spin 0.6s linear infinite;
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+td, th {
+    padding: 5px;
+}
+
+.modal-content {
+    max-width: 400px;
+}
+
+.alert-warning {
+    color: #8a6d3b !important;
+    background-color: #fcf8e3 !important;
+    border-color: #faebcc;
+}
+
+.fc-toolbar {
+    padding: 10px;
+    margin: 0;
+    background: linear-gradient(#00573d 0%, rgba(0, 87, 61, 0.74) 100%);
+    color: #fff;
+    border-radius: 3px;
+}
+
+.box {
+    position: relative;
+    border-radius: 3px;
+    background: #ffffff;
+    border-top: 0 !important;
+    margin-bottom: 20px;
+    width: 100%;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+}
+
+.ribbon {
+    position: absolute;
+    right: -5px;
+    top: -5px;
+    z-index: 1;
+    overflow: hidden;
+    width: 75px;
+    height: 75px;
+    text-align: right;
+}
+
+    .ribbon span {
+        font-size: 12px;
+        color: #fff;
+        text-transform: uppercase;
+        text-align: center;
+        font-weight: bold;
+        line-height: 20px;
+        transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+        width: 109px;
+        display: block;
+        background: #79A70A;
+        background: linear-gradient(#289A53 0%, #44BF72 100%);
+        /* background: linear-gradient(#9BC90D 0%, #79A70A 100%); */
+        box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
+        position: absolute;
+        top: 19px;
+        right: -21px;
+    }
+
+.dropdown-submenu {
+    position: relative;
+}
+
+    .dropdown-submenu > .dropdown-menu {
+        top: 0;
+        left: 100%;
+        margin-top: -6px;
+        margin-left: -1px;
+        -webkit-border-radius: 0 6px 6px 6px;
+        -moz-border-radius: 0 6px 6px 6px;
+        border-radius: 0 6px 6px 6px;
+    }
+
+    .dropdown-submenu:hover > .dropdown-menu {
+        display: block;
+    }
+
+    .dropdown-submenu > a:after {
+        display: block;
+        content: " ";
+        float: right;
+        width: 0;
+        height: 0;
+        border-color: transparent;
+        border-style: solid;
+        border-width: 5px 0 5px 5px;
+        border-left-color: #cccccc;
+        margin-top: 5px;
+        margin-right: -10px;
+    }
+
+    .dropdown-submenu:hover > a:after {
+        border-left-color: #ffffff;
+    }
+
+    .dropdown-submenu.pull-left {
+        float: none;
+    }
+
+        .dropdown-submenu.pull-left > .dropdown-menu {
+            left: -100%;
+            margin-left: 10px;
+        }
+
+.multi-level > li > a {
+    font-size: 12px;
+}
+
+.multi-level > li > ul > li > a {
+    font-size: 12px;
+}
+
+.dropdown-menu > li > a {
+    font-size: 12px;
+}
+
+.hrdocs > li > a {
+    font-size: 12px;
+    padding: 3px 10px;
+}
+
+.qk-events {
+    width: 90%;
+}
+.col-md-3 {
+    width: 21%;
+}
+.cal-header {
+    font-family: 'Source Sans Pro',sans-serif;
+    font-variant: small-caps;
+    color: #0f543e !important;
+    background-color: transparent;
+}
+
+
+.fc-unthemed .fc-today {
+    background: #f9ea99;
+}
